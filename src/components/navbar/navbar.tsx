@@ -1,9 +1,8 @@
 import React from 'react';
-import {fade, makeStyles, Theme, createStyles} from '@material-ui/core/styles';
+import {createStyles, fade, makeStyles, Theme} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
-import Typography from '@material-ui/core/Typography';
 import InputBase from '@material-ui/core/InputBase';
 import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -176,7 +175,7 @@ export default function Navbar() {
                     >
                         <MenuIcon/>
                     </IconButton>
-                    <div className={classes.search}>
+                   {/* <div className={classes.search}>
                         <div className={classes.searchIcon}>
                             <SearchIcon/>
                         </div>
@@ -188,7 +187,7 @@ export default function Navbar() {
                             }}
                             inputProps={{'aria-label': 'search'}}
                         />
-                    </div>
+                    </div>*/}
                     <div className={classes.grow}/>
                     <div className={classes.sectionDesktop}>
                         <IconButton aria-label="show 4 new mails" color="inherit">

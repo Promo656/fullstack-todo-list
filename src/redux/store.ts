@@ -1,8 +1,13 @@
 import {applyMiddleware, combineReducers, compose, createStore} from "redux";
 import thunkMiddleware from "redux-thunk";
+import {boards} from "./boardReducer";
+import {todoLists} from "./todoListReducer";
+import {tasks} from "./taskReducer";
 
 let reducers = combineReducers({
-
+    boards,
+    todoLists,
+    tasks
 })
 
 export type StateType = ReturnType<typeof reducers>
