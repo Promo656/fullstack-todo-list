@@ -1,9 +1,9 @@
 import React from 'react';
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
-import {Taskype} from "../../types/taskType";
+import {TaskType} from "../../types/taskType";
 
 type TaskPropsType = {
-    tasks: Taskype[]
+    tasks: TaskType[]
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -29,18 +29,13 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function Task(props: TaskPropsType) {
     const classes = useStyles();
-
-    {
-        props.tasks.map(task => {
-            return (
-                <div className={classes.task}>
-                <span>
-                    {task.text}
-                </span>
-                </div>
-            );
-        })
-    }
+    return (
+        <div className={classes.task}>
+            {
+                props.tasks.map(task => <span>{task.text}</span>)
+            }
+        </div>
+    )
 }
 
 export default Task;

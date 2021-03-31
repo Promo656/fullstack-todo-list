@@ -41,9 +41,11 @@ const useStyles = makeStyles((theme: Theme) =>
     }),
 );
 
-export default function TodoList(props: any) {
+export default function TodoList(props: TodoListPropsType) {
     const classes = useStyles();
+const addNewTaskHandler=()=>{
 
+}
     return (
         <div className={classes.todoList}>
             <div className={classes.header}>
@@ -54,12 +56,12 @@ export default function TodoList(props: any) {
             </div>
             <TaskContainer/>
             <div>
-                <Button classes={{
+                <Button onClick={addNewTaskHandler} classes={{
                     label: classes.reButtonLabel,
                     text: classes.reButtonText
                 }} className={classes.addButton}>
                     <AddIcon/>
-                    Add a card
+                    Add a task
                 </Button>
             </div>
         </div>

@@ -13,6 +13,8 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import DashboardIcon from '@material-ui/icons/Dashboard';
+import {useHistory} from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -78,10 +80,14 @@ const useStyles = makeStyles((theme: Theme) =>
                 display: 'none',
             },
         },
+        reButton: {
+            color: "inherit"
+        }
     }),
 );
 
 export default function Navbar() {
+    const history = useHistory()
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -105,6 +111,10 @@ export default function Navbar() {
     const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
         setMobileMoreAnchorEl(event.currentTarget);
     };
+
+    const gotoBoards = () => {
+        history.push('/111/boards')
+    }
 
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
@@ -175,7 +185,10 @@ export default function Navbar() {
                     >
                         <MenuIcon/>
                     </IconButton>
-                   {/* <div className={classes.search}>
+                    <IconButton classes={{root: classes.reButton}} onClick={gotoBoards}>
+                        <DashboardIcon/>
+                    </IconButton>
+                    {/* <div className={classes.search}>
                         <div className={classes.searchIcon}>
                             <SearchIcon/>
                         </div>

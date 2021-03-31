@@ -2,15 +2,15 @@ import React from 'react';
 import Task from "./task";
 import {connect} from "react-redux";
 import {StateType} from "../../redux/store";
-import {Taskype} from "../../types/taskType";
+import {TaskType} from "../../types/taskType";
 
 type MSTP = {
-    tasks: Taskype[]
+    tasks: TaskType[]
 }
 
 type TaskContainerPropsType = MSTP
 
-class TaskContainer extends React.Component<TaskContainerPropsType> {
+class TaskContainer extends React.Component<any> {
     render() {
         return (
             <Task tasks={this.props.tasks}/>

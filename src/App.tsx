@@ -4,7 +4,7 @@ import Navbar from "./components/navbar/navbar";
 import BoardsContainer from "./path/boardsContainer";
 import TodoListsContainer from "./path/todoListsContainer";
 
-function App(props: any) {
+function App() {
     return (
         <div>
             <Navbar/>

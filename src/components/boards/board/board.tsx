@@ -5,9 +5,11 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
-import {BoardType} from "../../../types/boardType";
+import {useHistory} from "react-router-dom";
 
-type BoardPropsType = BoardType
+type BoardPropsType = {
+    title: string
+}
 
 const image = 'https://www.imore.com/sites/imore.com/files/styles/large/public/field/image/2020/07/big-sur-recreation2.jpg'
 const useStyles = makeStyles({
@@ -21,9 +23,12 @@ const useStyles = makeStyles({
 
 export default function Board(props: BoardPropsType) {
     const classes = useStyles();
-
+    const history = useHistory()
+    const gotoTodoLists = () => {
+        history.push('/111')
+    }
     return (
-        <Card className={classes.root}>
+        <Card className={classes.root} onClick={gotoTodoLists}>
             <CardActionArea>
                 <CardMedia
                     className={classes.media}

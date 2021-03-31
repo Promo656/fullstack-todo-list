@@ -15,9 +15,7 @@ function Boards(props: BoardsPropsType) {
                     props.boards.map(board =>
                         <Grid key={board.id} item>
                             <Board
-                                id={board.id}
                                 title={board.title}
-
                             />
                         </Grid>)
                 }
