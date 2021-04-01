@@ -13,14 +13,14 @@ type MDTP = {
     addNewTask: (id: string, title: string) => void
 }
 
-type TodoListsContainerPropsType = MSTP
+type TodoListsContainerPropsType = MSTP & MDTP
 
 class TodoListsContainer extends React.Component<TodoListsContainerPropsType> {
     render() {
         return (
             <TodoLists
                 todoLists={this.props.todoLists}
-
+                addNewTask={this.props.addNewTask}
             />
         );
     }

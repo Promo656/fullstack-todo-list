@@ -4,9 +4,11 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import {Button, IconButton} from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
 import TaskContainer from "../../task/taskContainer";
+import {v1} from "uuid";
 
 type TodoListPropsType = {
     title: string
+    addNewTask: (id: string, title: string) => void
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -43,9 +45,10 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function TodoList(props: TodoListPropsType) {
     const classes = useStyles();
-const addNewTaskHandler=()=>{
+    const addNewTaskHandler = () => {
+        props.addNewTask(v1(), "Hello")
+    }
 
-}
     return (
         <div className={classes.todoList}>
             <div className={classes.header}>

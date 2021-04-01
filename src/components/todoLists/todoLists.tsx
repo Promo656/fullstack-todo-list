@@ -5,6 +5,7 @@ import TodoList from "./todoList/todoList";
 
 type TodoListsPropsType = {
     todoLists: TodoListType[]
+    addNewTask: (id: string, title: string) => void
 }
 
 function TodoLists(props: TodoListsPropsType) {
@@ -16,6 +17,7 @@ function TodoLists(props: TodoListsPropsType) {
                         <Grid key={todoList.id} item>
                             <TodoList
                                 title={todoList.title}
+                                addNewTask={props.addNewTask}
                             />
                         </Grid>
                     )

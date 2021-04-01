@@ -3,7 +3,7 @@ import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import {TaskType} from "../../types/taskType";
 
 type TaskPropsType = {
-    tasks: TaskType[]
+    task: TaskType
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme: Theme) =>
         task: {
             display: "flex",
             alignItems: "center",
-            minHeight: 32,
+            minHeight: 20,
             borderRadius: 4,
             backgroundColor: "#ffffff",
             //backgroundColor: "#ebecf0",
@@ -30,11 +30,13 @@ const useStyles = makeStyles((theme: Theme) =>
 function Task(props: TaskPropsType) {
     const classes = useStyles();
     return (
-        <div className={classes.task}>
-            {
-                props.tasks.map(task => <span>{task.text}</span>)
-            }
-        </div>
+        <>
+            <div className={classes.task}>
+                <span>{props.task.text}</span>)
+
+            </div>
+        </>
+
     )
 }
 

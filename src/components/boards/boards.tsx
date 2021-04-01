@@ -17,7 +17,8 @@ function Boards(props: BoardsPropsType) {
                             <Board
                                 title={board.title}
                             />
-                        </Grid>)
+                        </Grid>
+                    )
                 }
             </Grid>
         </Container>

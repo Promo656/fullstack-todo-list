@@ -4,11 +4,11 @@ import {StateType} from "../redux/store";
 import {connect} from "react-redux";
 import {BoardType} from "../types/boardType";
 
-type MapStateToProps = {
+type MSTP = {
     boards: BoardType[]
 }
 
-type BoardsContainerPropsType = MapStateToProps
+type BoardsContainerPropsType = MSTP
 
 class BoardsContainer extends React.Component<BoardsContainerPropsType> {
     render() {
@@ -23,4 +23,4 @@ class BoardsContainer extends React.Component<BoardsContainerPropsType> {
 const mapStateToProps = (state: StateType) => ({
     boards: state.boards
 })
-export default connect(mapStateToProps, null)(BoardsContainer);
+export default connect(mapStateToProps, {})(BoardsContainer);

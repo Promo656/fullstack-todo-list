@@ -10,10 +10,11 @@ type MSTP = {
 
 type TaskContainerPropsType = MSTP
 
-class TaskContainer extends React.Component<any> {
+class TaskContainer extends React.Component<TaskContainerPropsType> {
     render() {
+
         return (
-            <Task tasks={this.props.tasks}/>
+            this.props.tasks.map(task => <Task key={task.id} task={task}/>)
         );
     }
 }
@@ -21,4 +22,4 @@ class TaskContainer extends React.Component<any> {
 const mapStateToProps = (state: StateType) => ({
     tasks: state.tasks
 })
-export default connect(mapStateToProps, null)(TaskContainer);
+export default connect(mapStateToProps, {})(TaskContainer);

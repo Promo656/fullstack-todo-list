@@ -2,35 +2,33 @@ import {v1} from "uuid"
 import {TaskType} from "../types/taskType";
 import {ADD_NEW_TASK} from "../const/const";
 
-type InitialStateTaskType = {
-    tasks: TaskType[]
-}
+type InitialStateTaskType = TaskType[]
+type TaskReducerAT = AddNewTaskAT
 
-let initialState: InitialStateTaskType = {
-    tasks: [
-        {
-            id: v1(),
-            text: "First task"
-        },
-        {
-            id: v1(),
-            text: "Second task"
-        },
-        {
-            id: v1(),
-            text: "Third task"
-        }
-    ]
-}
+let initialState: InitialStateTaskType = [
 
-export const tasks = (state: InitialStateTaskType = initialState, action: any) => {
+    {
+        id: v1(),
+        text: "First task"
+    },
+    {
+        id: v1(),
+        text: "Second task"
+    },
+    {
+        id: v1(),
+        text: "Third task"
+    }
+]
+
+
+export const tasks = (state: InitialStateTaskType = initialState, action: TaskReducerAT) => {
     switch (action.type) {
         case ADD_NEW_TASK:
+            debugger
             return {
                 ...state,
-                tasks: [
-                    ...state.tasks
-                ]
+
             }
         default :
             return state
@@ -41,7 +39,7 @@ type AddNewTaskAT = {
     type: typeof ADD_NEW_TASK,
     payload: TaskType
 }
-export const addNewTask = ({id, text}: TaskType): AddNewTaskAT => ({
+export const addNewTask = (id: string, text: string): AddNewTaskAT => ({
     type: ADD_NEW_TASK,
     payload: {text, id}
 })

@@ -1,24 +1,31 @@
 import {BoardType} from "../types/boardType";
 import {v1} from "uuid"
 
-type InitialStateType = BoardType[]
+type InitialStateBoardsType = BoardType
 
-let initialState: InitialStateType = [
-    {
-        id: v1(),
-        title: "First board"
-    },
-    {
-        id: v1(),
-        title: "Second board"
-    },
-    {
-        id: v1(),
-        title: "Third board"
+let initialState:InitialStateBoardsType = {
+    [v1()]: {
+        title:"Board 1",
+        todoLists:[]
     }
-]
 
-export const boards = (state: InitialStateType = initialState, action: any) => {
+
+
+    /* {
+         id: v1(),
+         title: "First board"
+     },
+     {
+         id: v1(),
+         title: "Second board"
+     },
+     {
+         id: v1(),
+         title: "Third board"
+     }*/
+}
+
+export const boards = (state: InitialStateBoardsType = initialState, action: any) => {
     switch (action.type) {
         default :
             return state
