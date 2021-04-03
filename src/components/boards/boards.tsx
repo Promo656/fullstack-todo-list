@@ -12,10 +12,10 @@ function Boards(props: BoardsPropsType) {
         <Container>
             <Grid container spacing={3}>
                 {
-                    props.boards.map(board =>
-                        <Grid key={board.id} item>
+                    Object.entries(props.boards).map(([key, value]) =>
+                        <Grid key={key} item>
                             <Board
-                                title={board.title}
+                                title={value.title}
                             />
                         </Grid>
                     )

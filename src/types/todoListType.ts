@@ -1,4 +1,7 @@
 export type TodoListType = {
-    id: string
-    title: string
+    [key: string]: {
+        id: string
+        boardId: string
+        title: string
+    }
 }

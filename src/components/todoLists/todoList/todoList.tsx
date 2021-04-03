@@ -8,6 +8,8 @@ import {v1} from "uuid";
 
 type TodoListPropsType = {
     title: string
+    todoListId: string
+    boardId: string
     addNewTask: (id: string, title: string) => void
 }
 

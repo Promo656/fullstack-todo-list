@@ -1,22 +1,16 @@
 import {v1} from "uuid"
 import {TodoListType} from "../types/todoListType";
 
-type InitialStateTodoListType = TodoListType[]
+type InitialStateTodoListType = TodoListType
 
-let initialState: InitialStateTodoListType = [
-    {
-        id: v1(),
-        title: "First todoList"
-    },
-    {
-        id: v1(),
-        title: "Second todoList"
-    },
-    {
-        id: v1(),
-        title: "Third todoList"
-    }
-]
+let initialState: InitialStateTodoListType = {
+    "Board1":
+        {
+            id: "todoList1",
+            title: "TodoList 1",
+            boardId: "Board1"
+        }
+}
 
 export const todoLists = (state: InitialStateTodoListType = initialState, action: any) => {
     switch (action.type) {

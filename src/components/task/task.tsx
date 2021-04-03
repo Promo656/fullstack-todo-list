@@ -1,9 +1,8 @@
 import React from 'react';
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
-import {TaskType} from "../../types/taskType";
 
 type TaskPropsType = {
-    task: TaskType
+    task: string
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -32,8 +31,7 @@ function Task(props: TaskPropsType) {
     return (
         <>
             <div className={classes.task}>
-                <span>{props.task.text}</span>)
-
+                <span>{props.task}</span>
             </div>
         </>
 

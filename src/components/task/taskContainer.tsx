@@ -5,16 +5,17 @@ import {StateType} from "../../redux/store";
 import {TaskType} from "../../types/taskType";
 
 type MSTP = {
-    tasks: TaskType[]
+    [key: string]: TaskType[]
 }
 
 type TaskContainerPropsType = MSTP
 
 class TaskContainer extends React.Component<TaskContainerPropsType> {
     render() {
-
         return (
-            this.props.tasks.map(task => <Task key={task.id} task={task}/>)
+            Object.entries(this.props.tasks).map(([key, value]) =>
+                <Task key={key} task={value.text}/>
+            )
         );
     }
 }
