@@ -19,7 +19,7 @@ type TodoListsPropsType = MSTP & MDTP
 
 function TodoLists(props: TodoListsPropsType) {
     const addNewTodoListHandler = () => {
-        props.addNewTodoList({boardId: props.boardId, title: "New TodoList", id: v1()})
+        props.addNewTodoList({id: v1(), title: "New TODO", boardId: props.boardId})
     }
 
     return (

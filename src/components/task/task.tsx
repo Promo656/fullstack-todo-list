@@ -36,7 +36,7 @@ function Task(props: TaskPropsType) {
                 props.tasks
                 && !!props.tasks.length
                 && props.tasks.map(task =>
-                    <div className={classes.task}>
+                    <div key={task.id} className={classes.task}>
                         <span>{task.text}</span>
                     </div>
                 )

@@ -1,37 +1,27 @@
 import {TodoListType} from "../types/todoListType";
-import {ADD_NEW_TODOLIST} from "../const/const";
+import {ADD_NEW_BOARD, ADD_NEW_TODOLIST} from "../const/const";
+import {AddNewBoardAT} from "./boardReducer";
 
-type ActionsType = ReturnType<typeof addNewTodoList>
+export type AddNewTodoListAT = ReturnType<typeof addNewTodoList>
+type ActionsType = AddNewTodoListAT & AddNewBoardAT
 
 type InitialStateTodoListType = {
     [key: string]: TodoListType[]
 }
 
-let initialState: InitialStateTodoListType = {
-    /*   "Board1": [
-           {
-               id: "todoList1",
-               title: "TodoList 1",
-               boardId: "Board1"
-           },
-           {
-               id: "todoList2",
-               title: "TodoList 2",
-               boardId: "Board1"
-           }
-       ],*/
-}
+let initialState: InitialStateTodoListType = {}
 
 export const todoLists = (state: InitialStateTodoListType = initialState, action: ActionsType) => {
     switch (action.type) {
         case ADD_NEW_TODOLIST:
-            debugger
             return {
                 ...state,
-                [action.payload.todoList.boardId]: [
-                    action.payload.todoList,
-                    ...state[action.payload.todoList.boardId]
-                ]
+                [action.payload.todoList.boardId]: [...state[action.payload.todoList.boardId], action.payload.todoList]
+            }
+        case ADD_NEW_BOARD:
+            return {
+                ...state,
+                [action.payload.board.id]: []
             }
         default :
             return state
