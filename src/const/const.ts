@@ -1,1 +1,5 @@
+export const ADD_NEW_BOARD="ADD_NEW_BOARD"
+
+export const ADD_NEW_TODOLIST="ADD_NEW_TODOLIST"
+
 export const ADD_NEW_TASK="ADD_NEW_TASK"

@@ -9,6 +9,7 @@ import {useHistory} from "react-router-dom";
 
 type BoardPropsType = {
     title: string
+    boardId: string
 }
 
 const image = 'https://www.imore.com/sites/imore.com/files/styles/large/public/field/image/2020/07/big-sur-recreation2.jpg'
@@ -25,7 +26,7 @@ export default function Board(props: BoardPropsType) {
     const classes = useStyles();
     const history = useHistory()
     const gotoTodoLists = () => {
-        history.push('/111')
+        history.push(`/${props.boardId}`)
     }
     return (
         <Card className={classes.root} onClick={gotoTodoLists}>

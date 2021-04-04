@@ -5,13 +5,18 @@ import {Button, IconButton} from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
 import TaskContainer from "../../task/taskContainer";
 import {v1} from "uuid";
+import {TaskType} from "../../../types/taskType";
 
-type TodoListPropsType = {
+type MDTP = {
+    addNewTask: (task: TaskType) => void
+}
+type MSTP = {
     title: string
     todoListId: string
     boardId: string
-    addNewTask: (id: string, title: string) => void
 }
+type TodoListPropsType = MSTP & MDTP
+
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -48,7 +53,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function TodoList(props: TodoListPropsType) {
     const classes = useStyles();
     const addNewTaskHandler = () => {
-        props.addNewTask(v1(), "Hello")
+        props.addNewTask({id: v1(), text: "Hello", todoListId: props.todoListId})
     }
 
     return (
@@ -59,7 +64,7 @@ export default function TodoList(props: TodoListPropsType) {
                     <MoreHorizIcon/>
                 </IconButton>
             </div>
-            <TaskContainer/>
+            <TaskContainer todoListId={props.todoListId} />
             <div>
                 <Button onClick={addNewTaskHandler} classes={{
                     label: classes.reButtonLabel,

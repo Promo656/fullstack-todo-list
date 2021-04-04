@@ -6,16 +6,22 @@ import {TaskType} from "../../types/taskType";
 
 type MSTP = {
     [key: string]: TaskType[]
+
+}
+type PropsType = {
+    todoListId: string
 }
 
 type TaskContainerPropsType = MSTP
 
-class TaskContainer extends React.Component<TaskContainerPropsType> {
+class TaskContainer extends React.Component<any> {
     render() {
         return (
-            Object.entries(this.props.tasks).map(([key, value]) =>
-                <Task key={key} task={value.text}/>
-            )
+
+            /* Object.entries(this.props.tasks).map(([key, value]) =>
+                 <Task key={key} task={value.text}/>
+             )*/
+            <Task tasks={this.props.tasks[this.props.todoListId]}/>
         );
     }
 }
