@@ -7,7 +7,7 @@ import {TodoListType} from "../types/todoListType";
 import TodoLists from "../components/todoLists/todoLists";
 import {addNewTask} from "../redux/taskReducer";
 import {TaskType} from "../types/taskType";
-import {addNewTodoList} from "../redux/todoListReducer";
+import {addNewTodoList, changeTodoListTitle} from "../redux/todoListReducer";
 
 type MSTP = {
     [key: string]: TodoListType[]
@@ -16,6 +16,7 @@ type MSTP = {
 type MDTP = {
     addNewTask: (task: TaskType) => void
     addNewTodoList: (todoList: TodoListType) => void
+    changeTodoListTitle: (boardId: string, todoListId: string, newTodoListTitle: string) => void
 }
 
 type RouteComponentPropsType = {
@@ -34,6 +35,7 @@ class TodoListsContainer extends React.Component<TodoListsContainerPropsType> {
                 addNewTask={this.props.addNewTask}
                 addNewTodoList={this.props.addNewTodoList}
                 boardId={this.props.match.params.boardId}
+                changeTodoListTitle={this.props.changeTodoListTitle}
             />
         );
     }
@@ -44,7 +46,11 @@ const mapStateToProps = (state: StateType) => ({
 })
 
 export default compose<React.ComponentType>(
-    connect(mapStateToProps, {addNewTask, addNewTodoList}),
+    connect(mapStateToProps, {
+        addNewTask,
+        addNewTodoList,
+        changeTodoListTitle
+    }),
     withRouter
 )(TodoListsContainer)
 

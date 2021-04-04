@@ -3,25 +3,26 @@ import Task from "./task";
 import {connect} from "react-redux";
 import {StateType} from "../../redux/store";
 import {TaskType} from "../../types/taskType";
+import {changeTaskTitle} from "../../redux/taskReducer";
 
 type MSTP = {
     [key: string]: TaskType[]
-
+    //todoListId: string
 }
-type PropsType = {
-    todoListId: string
+type MDTP = {
+    changeTaskTitle: (todoListId: string, taskId: string, newTaskTitle: string) => void
 }
 
-type TaskContainerPropsType = MSTP
+type TaskContainerPropsType = MSTP & MDTP
 
 class TaskContainer extends React.Component<any> {
     render() {
         return (
-
-            /* Object.entries(this.props.tasks).map(([key, value]) =>
-                 <Task key={key} task={value.text}/>
-             )*/
-            <Task tasks={this.props.tasks[this.props.todoListId]}/>
+            <Task
+                tasks={this.props.tasks[this.props.todoListId]}
+                changeTaskTitle={this.props.changeTaskTitle}
+                todoListId={this.props.todoListId}
+            />
         );
     }
 }
@@ -29,4 +30,6 @@ class TaskContainer extends React.Component<any> {
 const mapStateToProps = (state: StateType) => ({
     tasks: state.tasks
 })
-export default connect(mapStateToProps, {})(TaskContainer);
+export default connect(mapStateToProps, {
+    changeTaskTitle
+})(TaskContainer);

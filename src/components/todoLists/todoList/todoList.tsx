@@ -6,9 +6,11 @@ import AddIcon from '@material-ui/icons/Add';
 import TaskContainer from "../../task/taskContainer";
 import {v1} from "uuid";
 import {TaskType} from "../../../types/taskType";
+import EditableText from "../../editableText/editableText";
 
 type MDTP = {
     addNewTask: (task: TaskType) => void
+    changeTodoListTitle: (boardId: string, todoListId: string, newTodoListTitle: string) => void
 }
 type MSTP = {
     title: string
@@ -46,25 +48,36 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         reButtonText: {
             padding: 0
+        },
+        title: {
+            cursor: "pointer"
         }
     }),
 );
 
 export default function TodoList(props: TodoListPropsType) {
     const classes = useStyles();
+
     const addNewTaskHandler = () => {
-        props.addNewTask({id: v1(), text: "Hello", todoListId: props.todoListId})
+        props.addNewTask({id: v1(), text: "", todoListId: props.todoListId})
     }
 
     return (
         <div className={classes.todoList}>
             <div className={classes.header}>
-                <span>{props.title}</span>
+                <EditableText
+                    name="TodoList"
+                    title={props.title}
+                    changeTitle={props.changeTodoListTitle}
+                    boardId={props.boardId}
+                    todoListId={props.todoListId}
+                    className={classes.title}
+                />
                 <IconButton classes={{root: classes.reIconButtonRoot}}>
                     <MoreHorizIcon/>
                 </IconButton>
             </div>
-            <TaskContainer todoListId={props.todoListId} />
+            <TaskContainer todoListId={props.todoListId}/>
             <div>
                 <Button onClick={addNewTaskHandler} classes={{
                     label: classes.reButtonLabel,

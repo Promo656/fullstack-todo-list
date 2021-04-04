@@ -1,10 +1,17 @@
 import React from 'react';
 import {createStyles, makeStyles, Theme} from "@material-ui/core/styles";
 import {TaskType} from "../../types/taskType";
+import EditableText from "../editableText/editableText";
 
-type TaskPropsType = {
+type MSTP = {
     tasks: TaskType[]
+    todoListId: string
 }
+type MDTP = {
+    changeTaskTitle: (todoListId: string, taskId: string, newTaskTitle: string) => void
+}
+
+type TaskPropsType = MSTP & MDTP
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -36,9 +43,15 @@ function Task(props: TaskPropsType) {
                 props.tasks
                 && !!props.tasks.length
                 && props.tasks.map(task =>
-                    <div key={task.id} className={classes.task}>
-                        <span>{task.text}</span>
-                    </div>
+                    <EditableText
+                        key={task.id}
+                        name="Task"
+                        title={task.text}
+                        todoListId={props.todoListId}
+                        taskId={task.id}
+                        changeTitle={props.changeTaskTitle}
+                        className={classes.task}
+                    />
                 )
             }
 

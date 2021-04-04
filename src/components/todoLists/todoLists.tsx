@@ -13,6 +13,7 @@ type MSTP = {
 type MDTP = {
     addNewTask: (task: TaskType) => void
     addNewTodoList: (todoList: TodoListType) => void
+    changeTodoListTitle: (boardId: string, todoListId: string, newTodoListTitle: string) => void
 }
 
 type TodoListsPropsType = MSTP & MDTP
@@ -35,6 +36,7 @@ function TodoLists(props: TodoListsPropsType) {
                                 title={todoList.title}
                                 boardId={todoList.boardId}
                                 addNewTask={props.addNewTask}
+                                changeTodoListTitle={props.changeTodoListTitle}
                             />
                         </Grid>
                     )
