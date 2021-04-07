@@ -1,21 +1,20 @@
 require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
-const bodyParser = require('body-parser')
+const cors = require('cors')
 const app = express()
 const port = process.env.PORT || 5002
 const Post = require('./model/Post')
 
-app.use(bodyParser.json())
 
-const postRoute = require('./router/posts')
+app.use(cors())
+app.use(express.json())
 
-//app.use('/posts', postRoute)
 
 app.get('/', async (req, res) => {
     try {
         const post = await Post.find()
-        res.json(post)
+        res.status(200).json(post)
     } catch (e) {
         res.json(e)
     }
@@ -47,6 +46,18 @@ app.delete('/:postId', async (req, res) => {
     try {
         const removedPost = await Post.remove({_id: req.params.postId})
         res.json(removedPost)
+    } catch (e) {
+        res.json(e)
+    }
+})
+
+app.patch('/:postId', async (req, res) => {
+    try {
+        const updatePost = await Post.updateOne(
+            {_id: req.params.postId},
+            {$set: {title: req.body.title}}
+        )
+        res.json(updatePost)
     } catch (e) {
         res.json(e)
     }
