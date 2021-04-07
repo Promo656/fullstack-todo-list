@@ -1,17 +1,42 @@
 require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
-const cors = require('cors')
 const app = express()
+const cors = require('cors')
+
 const port = process.env.PORT || 5002
+const api = 'api/v1'
+
 const Post = require('./model/Post')
+const Board = require('./model/todo')
 
 
 app.use(cors())
 app.use(express.json())
 
+app.get('/board', async (req, res) => {
+    try {
+        const boards = await Board.find()
+        res.status(200).json(boards)
+    } catch (e) {
+        console.log(e)
+    }
+})
 
-app.get('/', async (req, res) => {
+app.post('/board', async (req, res) => {
+    const board = new Board({
+        title: req.body.title,
+    })
+    try {
+        const saveBoard = await board.save()
+        res.json(saveBoard)
+    } catch (e) {
+        res.json(e)
+    }
+})
+
+
+app.get('/post', async (req, res) => {
     try {
         const post = await Post.find()
         res.status(200).json(post)
@@ -20,7 +45,7 @@ app.get('/', async (req, res) => {
     }
 })
 
-app.post('/', async (req, res) => {
+app.post('/post', async (req, res) => {
     const post = new Post({
         title: req.body.title,
         description: req.body.description

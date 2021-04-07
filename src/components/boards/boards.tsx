@@ -4,8 +4,15 @@ import Board from "./board/board";
 import {BoardType} from "../../types/boardType";
 import {v1} from "uuid";
 
+export type BoardNew = {
+    date: string
+    title: string
+    __v: number
+    _id: string
+}
+
 type MSTP = {
-    boards: BoardType[]
+    boards: BoardNew[]
 }
 
 type MDTP = {
@@ -24,10 +31,10 @@ function Boards(props: BoardsPropsType) {
             <Grid container spacing={3}>
                 {
                     props.boards.map(board =>
-                        <Grid key={board.id} item>
+                        <Grid key={board._id} item>
                             <Board
                                 title={board.title}
-                                boardId={board.id}
+                                boardId={board._id}
                             />
                         </Grid>
                     )
