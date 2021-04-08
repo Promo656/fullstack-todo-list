@@ -4,19 +4,12 @@ import Board from "./board/board";
 import {BoardType} from "../../types/boardType";
 import {v1} from "uuid";
 
-export type BoardNew = {
-    date: string
-    title: string
-    __v: number
-    _id: string
-}
-
 type MSTP = {
-    boards: BoardNew[]
+    boards: BoardType[]
 }
 
 type MDTP = {
-    addNewBoard: (board: BoardType) => void
+    addNewBoard: (title: string) => void
 }
 
 type BoardsPropsType = MSTP & MDTP
@@ -24,7 +17,7 @@ type BoardsPropsType = MSTP & MDTP
 function Boards(props: BoardsPropsType) {
 
     const addNewBoardHandler = () => {
-        props.addNewBoard({id: v1(), title: "New Board"})
+        props.addNewBoard("Board one")
     }
     return (
         <Container>

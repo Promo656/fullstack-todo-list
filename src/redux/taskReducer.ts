@@ -6,12 +6,10 @@ type InitialStateTaskType = {
     [key: string]: TaskType[]
 }
 
-type AddNewTaskAT = ReturnType<typeof addNewTask>
-type ChangeTaskTitleAT = ReturnType<typeof changeTaskTitle>
 type TaskReducerAT =
     AddNewTaskAT
-    & AddNewTodoListAT
-    & ChangeTaskTitleAT
+    | AddNewTodoListAT
+    | ChangeTaskTitleAT
 
 let initialState: InitialStateTaskType = {
     /* "TodoList1": [
@@ -29,9 +27,9 @@ export const tasks = (state: InitialStateTaskType = initialState, action: TaskRe
         case ADD_NEW_TASK:
             return {
                 ...state,
-                [action.payload.task.todoListId]: [
-                    ...state[action.payload.task.todoListId],
-                    action.payload.task
+                [action.payload.todoListId]: [
+                    ...state[action.payload.todoListId],
+                    action.payload
                 ]
             }
         case CHANGE_TASK_TITLE:
@@ -50,18 +48,26 @@ export const tasks = (state: InitialStateTaskType = initialState, action: TaskRe
         case ADD_NEW_TODOLIST:
             return {
                 ...state,
-                [action.payload.todoList.id]: []
+                [action.payload.id]: []
             }
         default :
             return state
     }
 }
 
+type AddNewTaskAT = {
+    type: typeof ADD_NEW_TASK,
+    payload: TaskType
+}
 export const addNewTask = (task: TaskType) => ({
     type: ADD_NEW_TASK,
     payload: {task}
 })
 
+type ChangeTaskTitleAT = {
+    type: typeof CHANGE_TASK_TITLE,
+    payload: { todoListId: string, taskId: string, newTaskTitle: string }
+}
 export const changeTaskTitle = (todoListId: string, taskId: string, newTaskTitle: string) => ({
     type: CHANGE_TASK_TITLE,
     payload: {todoListId, taskId, newTaskTitle}

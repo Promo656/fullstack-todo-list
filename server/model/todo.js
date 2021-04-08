@@ -36,3 +36,4 @@ const TaskSchema = mongoose.Schema({
 /*module.exports = mongoose.model('Task', TaskSchema)
 module.exports = mongoose.model('TodoList', TodoListSchema)*/
 module.exports = mongoose.model('Boards', BoardSchema)
+

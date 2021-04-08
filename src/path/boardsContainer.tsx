@@ -1,47 +1,40 @@
 import React from 'react';
-import Boards, {BoardNew} from "../components/boards/boards";
+import Boards from "../components/boards/boards";
 import {StateType} from "../redux/store";
 import {connect} from "react-redux";
 import {BoardType} from "../types/boardType";
-import {addNewBoard} from "../redux/boardReducer";
-import axios from "axios";
+import {addNewBoard, fetchBoards} from "../redux/boardReducer";
 
 type MSTP = {
-    boards: BoardNew[]
+    boards: BoardType[]
 }
 type MDTP = {
-    addNewBoard: (board: BoardType) => void
+    addNewBoard: (title: string) => void
+    fetchBoards: () => void
 }
 
 type BoardsContainerPropsType = MSTP & MDTP
 
 class BoardsContainer extends React.Component<BoardsContainerPropsType> {
 
-    state = {
-        boards: []
-    }
-
-
     async componentDidMount() {
-        const response = await axios.get('http://localhost:5001/board')
-        this.setState({
-            boards: response.data
-        })
+        this.props.fetchBoards()
     }
 
     render() {
         return (
             <Boards
-                boards={this.state.boards}
+                boards={this.props.boards}
                 addNewBoard={this.props.addNewBoard}
             />
         );
     }
 }
 
-/*const mapStateToProps = (state: StateType) => ({
+const mapStateToProps = (state: StateType) => ({
     boards: state.boards
-})*/
-export default connect(null, {
-    addNewBoard
+})
+export default connect(mapStateToProps, {
+    addNewBoard,
+    fetchBoards
 })(BoardsContainer);

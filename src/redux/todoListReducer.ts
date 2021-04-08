@@ -1,13 +1,13 @@
 import {TodoListType} from "../types/todoListType";
-import {ADD_NEW_BOARD, ADD_NEW_TODOLIST, CHANGE_TODO_LIST_TITLE} from "../const/const";
-import {AddNewBoardAT} from "./boardReducer";
+import {ADD_NEW_BOARD, ADD_NEW_TODOLIST, CHANGE_TODO_LIST_TITLE, SET_BOARDS} from "../const/const";
+import {AddNewBoardAT, SetBoardsAT} from "./boardReducer";
 
-export type AddNewTodoListAT = ReturnType<typeof addNewTodoList>
-type ChangeTodoListTitleAT = ReturnType<typeof changeTodoListTitle>
+
 type ActionsType =
     AddNewTodoListAT
-    & AddNewBoardAT
-    & ChangeTodoListTitleAT
+    | AddNewBoardAT
+    | ChangeTodoListTitleAT
+    | SetBoardsAT
 
 type InitialStateTodoListType = {
     [key: string]: TodoListType[]
@@ -28,7 +28,7 @@ export const todoLists = (state: InitialStateTodoListType = initialState, action
         case ADD_NEW_TODOLIST:
             return {
                 ...state,
-                [action.payload.todoList.boardId]: [...state[action.payload.todoList.boardId], action.payload.todoList]
+                [action.payload.boardId]: [...state[action.payload.boardId], action.payload]
             }
         case CHANGE_TODO_LIST_TITLE:
             return {
@@ -46,17 +46,35 @@ export const todoLists = (state: InitialStateTodoListType = initialState, action
         case ADD_NEW_BOARD:
             return {
                 ...state,
-                [action.payload.board.id]: []
+                [action.payload]: []
+            }
+        case SET_BOARDS:
+
+            const newState = action.payload.map(el =>
+                state[el._id] = []
+            )
+            return {
+                ...state,
+
             }
         default :
             return state
     }
 }
 
-export const addNewTodoList = (todoList: TodoListType) => ({
+export type AddNewTodoListAT = {
+    type: typeof ADD_NEW_TODOLIST,
+    payload: TodoListType
+}
+export const addNewTodoList = (todoList: TodoListType): AddNewTodoListAT => ({
     type: ADD_NEW_TODOLIST,
-    payload: {todoList}
+    payload: todoList
 })
+
+type ChangeTodoListTitleAT = {
+    type: typeof CHANGE_TODO_LIST_TITLE,
+    payload: { boardId: string, todoListId: string, newTodoListTitle: string }
+}
 export const changeTodoListTitle = (boardId: string, todoListId: string, newTodoListTitle: string) => {
     return {
         type: CHANGE_TODO_LIST_TITLE,
