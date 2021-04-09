@@ -46,17 +46,14 @@ export const todoLists = (state: InitialStateTodoListType = initialState, action
         case ADD_NEW_BOARD:
             return {
                 ...state,
-                [action.payload]: []
+                [action.payload._id]: []
             }
         case SET_BOARDS:
-
-            const newState = action.payload.map(el =>
-                state[el._id] = []
-            )
-            return {
-                ...state,
-
-            }
+            const copyState = {...state}
+            action.payload.forEach(tl => {
+                copyState[tl._id] = []
+            })
+            return copyState
         default :
             return state
     }

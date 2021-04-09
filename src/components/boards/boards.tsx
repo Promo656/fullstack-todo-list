@@ -2,14 +2,15 @@ import React from 'react';
 import {Button, Container, Grid} from "@material-ui/core";
 import Board from "./board/board";
 import {BoardType} from "../../types/boardType";
-import {v1} from "uuid";
 
 type MSTP = {
     boards: BoardType[]
 }
 
 type MDTP = {
-    addNewBoard: (title: string) => void
+    addNewBoardTC: (title: string) => void
+    deleteBoardTC: (boardId: string) => void
+    renameBoardTC: (boardId: string, newTitle: string) => void
 }
 
 type BoardsPropsType = MSTP & MDTP
@@ -17,7 +18,7 @@ type BoardsPropsType = MSTP & MDTP
 function Boards(props: BoardsPropsType) {
 
     const addNewBoardHandler = () => {
-        props.addNewBoard("Board one")
+        props.addNewBoardTC("Board one")
     }
     return (
         <Container>
@@ -28,6 +29,8 @@ function Boards(props: BoardsPropsType) {
                             <Board
                                 title={board.title}
                                 boardId={board._id}
+                                deleteBoardTC={props.deleteBoardTC}
+                                renameBoardTC={props.renameBoardTC}
                             />
                         </Grid>
                     )

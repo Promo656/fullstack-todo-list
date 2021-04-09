@@ -8,5 +8,14 @@ const instance = axios.create({
 export const todoListsAPI = {
     getBoards() {
         return axios.get('/board')
+    },
+    addNewBoard(title: string) {
+        return axios.post('/board', {title})
+    },
+    deleteBoard(boardId: string) {
+        return axios.delete(`/${boardId}`)
+    },
+    renameBoard(boardId: string, title: string) {
+        return axios.patch(`/${boardId}`, {title})
     }
 }
