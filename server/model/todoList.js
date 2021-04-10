@@ -1,6 +1,10 @@
 const mongoose = require('mongoose')
 
- const BoardSchema = mongoose.Schema({
+const TodoListSchema = mongoose.Schema({
+    boardId: {
+        type: String,
+        required: true
+    },
     title: {
         type: String,
         required: true
@@ -11,5 +15,6 @@ const mongoose = require('mongoose')
     }
 })
 
-module.exports = mongoose.model('Boards', BoardSchema)
+module.exports = mongoose.model('TodoList', TodoListSchema)
+
 

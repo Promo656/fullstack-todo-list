@@ -7,7 +7,7 @@ import {TodoListType} from "../types/todoListType";
 import TodoLists from "../components/todoLists/todoLists";
 import {addNewTask} from "../redux/taskReducer";
 import {TaskType} from "../types/taskType";
-import {addNewTodoList, changeTodoListTitle} from "../redux/todoListReducer";
+import {addNewTodoListTC, deleteTodoListTC, fetchTodoListsTC, renameTodoListTC} from "../redux/todoListReducer";
 
 type MSTP = {
     [key: string]: TodoListType[]
@@ -15,8 +15,10 @@ type MSTP = {
 
 type MDTP = {
     addNewTask: (task: TaskType) => void
-    addNewTodoList: (todoList: TodoListType) => void
-    changeTodoListTitle: (boardId: string, todoListId: string, newTodoListTitle: string) => void
+    addNewTodoListTC: (boardId: string, title: string) => void
+    renameTodoListTC: (boardId: string, todoListId: string, newTodoListTitle: string) => void
+    deleteTodoListTC: (boardId: string, todoListId: string) => void
+    fetchTodoListsTC: () => void
 }
 
 type RouteComponentPropsType = {
@@ -28,14 +30,19 @@ type PathParamsType = RouteComponentProps<RouteComponentPropsType>
 type TodoListsContainerPropsType = MSTP & MDTP & PathParamsType
 
 class TodoListsContainer extends React.Component<TodoListsContainerPropsType> {
+    componentDidMount() {
+        this.props.fetchTodoListsTC()
+    }
+
     render() {
         return (
             <TodoLists
                 todoLists={this.props.todoLists[this.props.match.params.boardId]}
                 addNewTask={this.props.addNewTask}
-                addNewTodoList={this.props.addNewTodoList}
+                addNewTodoListTC={this.props.addNewTodoListTC}
                 boardId={this.props.match.params.boardId}
-                changeTodoListTitle={this.props.changeTodoListTitle}
+                renameTodoListTC={this.props.renameTodoListTC}
+                deleteTodoListTC={this.props.deleteTodoListTC}
             />
         );
     }
@@ -47,9 +54,11 @@ const mapStateToProps = (state: StateType) => ({
 
 export default compose<React.ComponentType>(
     connect(mapStateToProps, {
+        fetchTodoListsTC,
         addNewTask,
-        addNewTodoList,
-        changeTodoListTitle
+        addNewTodoListTC,
+        renameTodoListTC,
+        deleteTodoListTC
     }),
     withRouter
 )(TodoListsContainer)

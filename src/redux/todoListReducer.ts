@@ -1,13 +1,23 @@
-import {TodoListType} from "../types/todoListType";
-import {ADD_NEW_BOARD, ADD_NEW_TODOLIST, CHANGE_TODO_LIST_TITLE, SET_BOARDS} from "../const/const";
-import {AddNewBoardAT, SetBoardsAT} from "./boardReducer";
+import {
+    AddNewTodoListAT,
+    ChangeTodoListTitleAT,
+    DeleteTodoListAT,
+    SetTodoListsAT,
+    TodoListActionsType,
+    TodoListThunkDispatch,
+    TodoListType
+} from "../types/todoListType";
+import {
+    ADD_NEW_BOARD,
+    ADD_NEW_TODOLIST,
+    DELETE_BOARD,
+    DELETE_TODOLIST,
+    RENAME_TODO_LIST_TITLE,
+    SET_BOARDS,
+    SET_TODO_LISTS
+} from "../const/const";
+import {todoListsAPI} from "../api/todoListApi";
 
-
-type ActionsType =
-    AddNewTodoListAT
-    | AddNewBoardAT
-    | ChangeTodoListTitleAT
-    | SetBoardsAT
 
 type InitialStateTodoListType = {
     [key: string]: TodoListType[]
@@ -16,26 +26,33 @@ type InitialStateTodoListType = {
 let initialState: InitialStateTodoListType = {
     /* "Board1": [
          {
-             boardId: "Board1",
-             id: "TodoList1",
-             title: "New todoList"
+             date: "12.12.12",
+             title: "New TodoList",
+             boardId: "dfef44",
+             __v: 4535,
+             _id: "eff3fr3",
          }
      ]*/
 }
 
-export const todoLists = (state: InitialStateTodoListType = initialState, action: ActionsType) => {
+export const todoLists = (state: InitialStateTodoListType = initialState, action: TodoListActionsType) => {
     switch (action.type) {
         case ADD_NEW_TODOLIST:
             return {
                 ...state,
                 [action.payload.boardId]: [...state[action.payload.boardId], action.payload]
             }
-        case CHANGE_TODO_LIST_TITLE:
+        case DELETE_TODOLIST:
+            return {
+                ...state,
+                [action.payload.boardId]: state[action.payload.boardId].filter(el => el._id !== action.payload.todoListId)
+            }
+        case RENAME_TODO_LIST_TITLE:
             return {
                 ...state,
                 [action.payload.boardId]: state[action.payload.boardId]
                     .map(el =>
-                        el.id === action.payload.todoListId
+                        el._id === action.payload.todoListId
                             ? {
                                 ...el,
                                 title: action.payload.newTodoListTitle
@@ -48,33 +65,72 @@ export const todoLists = (state: InitialStateTodoListType = initialState, action
                 ...state,
                 [action.payload._id]: []
             }
-        case SET_BOARDS:
+        case SET_BOARDS: {
             const copyState = {...state}
-            action.payload.forEach(tl => {
-                copyState[tl._id] = []
+            action.payload.forEach(board => {
+                copyState[board._id] = []
             })
             return copyState
+        }
+        case DELETE_BOARD:
+            const copyState = {...state}
+            delete copyState[action.payload.boardId]
+            return copyState
+        case SET_TODO_LISTS:
+            const result = {} as InitialStateTodoListType
+            action.payload.forEach(el => {
+                if (!result[el.boardId]) {
+                    result[el.boardId] = [el]
+                } else {
+                    result[el.boardId].push(el)
+                }
+            })
+            return {
+                ...state,
+                ...result
+            }
         default :
             return state
     }
 }
 
-export type AddNewTodoListAT = {
-    type: typeof ADD_NEW_TODOLIST,
-    payload: TodoListType
-}
+
 export const addNewTodoList = (todoList: TodoListType): AddNewTodoListAT => ({
     type: ADD_NEW_TODOLIST,
     payload: todoList
 })
 
-type ChangeTodoListTitleAT = {
-    type: typeof CHANGE_TODO_LIST_TITLE,
-    payload: { boardId: string, todoListId: string, newTodoListTitle: string }
+export const deleteTodoList = (boardId: string, todoListId: string): DeleteTodoListAT => ({
+    type: DELETE_TODOLIST,
+    payload: {boardId, todoListId}
+})
+
+export const changeTodoListTitle = (boardId: string, todoListId: string, newTodoListTitle: string): ChangeTodoListTitleAT => ({
+    type: RENAME_TODO_LIST_TITLE,
+    payload: {boardId, todoListId, newTodoListTitle}
+})
+
+export const setTodoList = (todoLists: TodoListType[]): SetTodoListsAT => ({
+    type: SET_TODO_LISTS,
+    payload: todoLists
+})
+
+export const fetchTodoListsTC = () => async (dispatch: TodoListThunkDispatch) => {
+    const response = await todoListsAPI.getTodoLists()
+    dispatch(setTodoList(response.data))
 }
-export const changeTodoListTitle = (boardId: string, todoListId: string, newTodoListTitle: string) => {
-    return {
-        type: CHANGE_TODO_LIST_TITLE,
-        payload: {boardId, todoListId, newTodoListTitle}
-    }
+
+export const addNewTodoListTC = (boardId: string, title: string) => async (dispatch: TodoListThunkDispatch) => {
+    const response = await todoListsAPI.addNewTodoList(boardId, title)
+    dispatch(addNewTodoList(response.data))
+}
+
+export const deleteTodoListTC = (boardId: string, todoListId: string) => async (dispatch: TodoListThunkDispatch) => {
+    await todoListsAPI.deleteOneTodoList(todoListId)
+    dispatch(deleteTodoList(boardId, todoListId))
+}
+
+export const renameTodoListTC = (boardId: string, todoListId: string, newTodoListTitle: string) => async (dispatch: TodoListThunkDispatch) => {
+    await todoListsAPI.renameTodoList(todoListId, newTodoListTitle)
+    dispatch(changeTodoListTitle(boardId, todoListId, newTodoListTitle))
 }

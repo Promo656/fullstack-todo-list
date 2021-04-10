@@ -23,6 +23,7 @@ class BoardsContainer extends React.Component<BoardsContainerPropsType> {
         this.props.fetchBoardsTC()
     }
 
+
     render() {
         return (
             <Boards

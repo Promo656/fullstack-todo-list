@@ -21,13 +21,20 @@ function EditableText(props: EditableTextPropsType) {
 
     const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.target.value)
+    }
+    const onChangeMod = () => {
+        setMod(true)
+        setTitle(props.title)
+    }
+
+    const onBlur = () => {
+        setMod(false)
         if (props.name === "Task") {
-            props.changeTitle(props.todoListId as string, props.taskId as string, e.target.value)
+            props.changeTitle(props.todoListId as string, props.taskId as string, title)
         } else if (props.name === "TodoList") {
-            props.changeTitle(props.boardId as string, props.todoListId as string, e.target.value)
+            props.changeTitle(props.boardId as string, props.todoListId as string, title)
         }
     }
-    const onChangeMod = (value: boolean) => setMod(value)
 
     return (
         <>
@@ -36,14 +43,14 @@ function EditableText(props: EditableTextPropsType) {
                     ? <TextField
                         value={title}
                         onChange={onChangeTitleHandler}
-                        onBlur={() => onChangeMod(false)}
+                        onBlur={onBlur}
                         variant="outlined"
                         autoFocus
                         size="small"
                     />
                     : <Typography variant="inherit"
                                   className={props.className}
-                                  onClick={() => onChangeMod(true)}
+                                  onClick={onChangeMod}
                     >{title}
                     </Typography>
             }

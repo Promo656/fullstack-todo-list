@@ -5,16 +5,17 @@ const app = express()
 const cors = require('cors')
 
 const port = process.env.PORT || 5002
-const api = 'api/v1'
+const api = '/api/v1'
 
-const Post = require('./model/Post')
+// const Post = require('./model/post')
 const Board = require('./model/board')
+const TodoList = require('./model/todoList')
 
 
 app.use(cors())
 app.use(express.json())
 
-app.get('/board', async (req, res) => {
+app.get(`${api}/getBoards`, async (req, res) => {
     try {
         const boards = await Board.find()
         res.status(200).json(boards)
@@ -22,7 +23,7 @@ app.get('/board', async (req, res) => {
         console.log(e)
     }
 })
-app.post('/board', async (req, res) => {
+app.post(`${api}/addNewBoard`, async (req, res) => {
     const board = new Board({
         title: req.body.title,
     })
@@ -33,15 +34,15 @@ app.post('/board', async (req, res) => {
         res.json(e)
     }
 })
-app.delete('/:boardId', async (req, res) => {
+app.delete(`${api}/deleteBoard/:boardId`, async (req, res) => {
     try {
-        const removeBoard = await Board.remove({_id: req.params.boardId})
+        const removeBoard = await Board.deleteOne({_id: req.params.boardId})
         res.status(200).json(removeBoard)
     } catch (e) {
         res.json(e)
     }
 })
-app.patch('/:boardId', async (req, res) => {
+app.patch(`${api}/renameBoard/:boardId`, async (req, res) => {
     try {
         const updateBoard = await Board.updateOne(
             {_id: req.params.boardId},
@@ -53,12 +54,55 @@ app.patch('/:boardId', async (req, res) => {
     }
 })
 
+app.get(`${api}/getTodolist`, async (req, res) => {
+    try {
+        const todoList = await TodoList.find()
+        res.status(200).json(todoList)
+    } catch (e) {
+        res.json(e)
+    }
+})
+app.post(`${api}/addNewTodolist`, async (req, res) => {
+    const todolist = new TodoList({
+        title: req.body.title,
+        boardId: req.body.boardId
+    })
+    try {
+        const savedTodoList = await todolist.save()
+        res.json(savedTodoList)
+    } catch (e) {
+        res.json(e)
+    }
+})
+app.delete(`${api}/deleteAllTodoListFromBoard/:boardId`, async (req, res) => {
+    try {
+        const removeAllTodoListFromBoard = await TodoList.remove({boardId: req.params.boardId})
+        res.status(200).json(removeAllTodoListFromBoard)
+    } catch (e) {
+        res.json(e)
+    }
+})
+app.delete(`${api}/deleteOneTodoList/:todoListId`, async (req, res) => {
+    try {
+        const removeTodoList = await TodoList.deleteOne({_id: req.params.todoListId})
+        res.status(200).json(removeTodoList)
+    } catch (e) {
+        res.json({message: e})
+    }
+})
+app.patch(`${api}/renameTodoList/:todoListId`, async (req, res) => {
+    try {
+        const updateTodoList = await TodoList.updateOne(
+            {_id: req.params.todoListId},
+            {$set: {title: req.body.title}}
+        )
+        res.status(200).json(updateTodoList)
+    } catch (e) {
+        res.json(e)
+    }
+})
 
-
-
-
-
-app.get('/post', async (req, res) => {
+/*app.get('/post', async (req, res) => {
     try {
         const post = await Post.find()
         res.status(200).json(post)
@@ -88,7 +132,7 @@ app.get('/:postId', async (req, res) => {
 })
 app.delete('/:postId', async (req, res) => {
     try {
-        const removedPost = await Post.remove({_id: req.params.postId})
+        const removedPost = await Post.deleteOne({_id: req.params.postId})
         res.json(removedPost)
     } catch (e) {
         res.json(e)
@@ -104,7 +148,7 @@ app.patch('/:postId', async (req, res) => {
     } catch (e) {
         res.json(e)
     }
-})
+})*/
 
 
 mongoose.connect(process.env.DB_CONNECTION, {useNewUrlParser: true, useUnifiedTopology: true}, () => {

@@ -48,7 +48,7 @@ export const tasks = (state: InitialStateTaskType = initialState, action: TaskRe
         case ADD_NEW_TODOLIST:
             return {
                 ...state,
-                [action.payload.id]: []
+                [action.payload.boardId]: []
             }
         default :
             return state

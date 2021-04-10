@@ -3,7 +3,7 @@ import {TodoListType} from "../../types/todoListType";
 import {Button, Container, Grid} from "@material-ui/core";
 import {TaskType} from "../../types/taskType";
 import TodoList from "./todoList/todoList";
-import {v1} from "uuid";
+import {addNewTodoListTC} from "../../redux/todoListReducer";
 
 type MSTP = {
     todoLists: TodoListType[]
@@ -12,15 +12,16 @@ type MSTP = {
 
 type MDTP = {
     addNewTask: (task: TaskType) => void
-    addNewTodoList: (todoList: TodoListType) => void
-    changeTodoListTitle: (boardId: string, todoListId: string, newTodoListTitle: string) => void
+    addNewTodoListTC: (boardId: string, title: string) => void
+    renameTodoListTC: (boardId: string, todoListId: string, newTodoListTitle: string) => void
+    deleteTodoListTC: (boardId: string, todoListId: string) => void
 }
 
 type TodoListsPropsType = MSTP & MDTP
 
 function TodoLists(props: TodoListsPropsType) {
     const addNewTodoListHandler = () => {
-        props.addNewTodoList({id: v1(), title: "New TODO", boardId: props.boardId})
+        props.addNewTodoListTC(props.boardId, "New Todo")
     }
 
     return (
@@ -30,13 +31,15 @@ function TodoLists(props: TodoListsPropsType) {
                     props.todoLists
                     && !!props.todoLists.length
                     && props.todoLists.map(todoList =>
-                        <Grid key={todoList.id} item>
+                        <Grid key={todoList._id} item>
                             <TodoList
-                                todoListId={todoList.id}
+                                key={todoList._id}
+                                todoListId={todoList._id}
                                 title={todoList.title}
                                 boardId={todoList.boardId}
                                 addNewTask={props.addNewTask}
-                                changeTodoListTitle={props.changeTodoListTitle}
+                                renameTodoListTC={props.renameTodoListTC}
+                                deleteTodoListTC={props.deleteTodoListTC}
                             />
                         </Grid>
                     )

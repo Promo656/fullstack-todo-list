@@ -10,7 +10,8 @@ import EditableText from "../../editableText/editableText";
 
 type MDTP = {
     addNewTask: (task: TaskType) => void
-    changeTodoListTitle: (boardId: string, todoListId: string, newTodoListTitle: string) => void
+    renameTodoListTC: (boardId: string, todoListId: string, newTodoListTitle: string) => void
+    deleteTodoListTC: (boardId: string, todoListId: string) => void
 }
 type MSTP = {
     title: string
@@ -62,18 +63,22 @@ export default function TodoList(props: TodoListPropsType) {
         props.addNewTask({id: v1(), text: "", todoListId: props.todoListId})
     }
 
+    const deleteTodoListHandler = () => {
+        props.deleteTodoListTC(props.boardId, props.todoListId)
+    }
+
     return (
         <div className={classes.todoList}>
             <div className={classes.header}>
                 <EditableText
                     name="TodoList"
                     title={props.title}
-                    changeTitle={props.changeTodoListTitle}
+                    changeTitle={props.renameTodoListTC}
                     boardId={props.boardId}
                     todoListId={props.todoListId}
                     className={classes.title}
                 />
-                <IconButton classes={{root: classes.reIconButtonRoot}}>
+                <IconButton classes={{root: classes.reIconButtonRoot}} onClick={deleteTodoListHandler}>
                     <MoreHorizIcon/>
                 </IconButton>
             </div>

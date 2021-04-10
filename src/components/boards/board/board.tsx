@@ -105,27 +105,5 @@ export default function Board(props: BoardPropsType) {
                 </Button>
             </CardActions>
         </Card>
-        /*    <Card className={classes.root} onClick={gotoTodoLists}>
-                <CardActionArea>
-                    <CardMedia
-                        className={classes.media}
-                        image={image}
-                        title="Contemplative Reptile"
-                    />
-                    <CardContent>
-                        <Typography gutterBottom variant="h5" component="h2">
-                            {props.title}
-                        </Typography>
-                    </CardContent>
-                </CardActionArea>
-                <CardActions>
-                    <Button size="small" color="primary">
-                        Share
-                    </Button>
-                    <Button size="small" color="primary">
-                        Learn More
-                    </Button>
-                </CardActions>
-            </Card>*/
     );
 }
