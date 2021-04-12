@@ -1,5 +1,8 @@
 export type TaskType = {
-    id: string
+    _id: string
+    date: string
+    title: string
+    boardId: string
     todoListId: string
-    text: string
+    __v: number
 }

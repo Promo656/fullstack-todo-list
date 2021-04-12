@@ -10,6 +10,7 @@ const api = '/api/v1'
 // const Post = require('./model/post')
 const Board = require('./model/board')
 const TodoList = require('./model/todoList')
+const Task = require('./model/task')
 
 
 app.use(cors())
@@ -101,6 +102,30 @@ app.patch(`${api}/renameTodoList/:todoListId`, async (req, res) => {
         res.json(e)
     }
 })
+
+
+app.get(`${api}/getTasks`, async (req, res) => {
+    try {
+        const task = await Task.find()
+        res.status(200).json(task)
+    } catch (e) {
+        res.json(e)
+    }
+})
+app.post(`${api}/addNewTask`, async (req, res) => {
+    const task = new Task({
+        title: req.body.title,
+        todoListId: req.body.todoListId,
+        boardId: req.body.boardI
+    })
+    try {
+        const saveTask = await task.save()
+        res.status(200).json(saveTask)
+    } catch (e) {
+        res.json(e)
+    }
+})
+
 
 /*app.get('/post', async (req, res) => {
     try {

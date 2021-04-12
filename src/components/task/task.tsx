@@ -44,11 +44,11 @@ function Task(props: TaskPropsType) {
                 && !!props.tasks.length
                 && props.tasks.map(task =>
                     <EditableText
-                        key={task.id}
+                        key={task._id}
                         name="Task"
-                        title={task.text}
+                        title={task.title}
                         todoListId={props.todoListId}
-                        taskId={task.id}
+                        taskId={task._id}
                         changeTitle={props.changeTaskTitle}
                         className={classes.task}
                     />

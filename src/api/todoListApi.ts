@@ -15,6 +15,7 @@ export const todoListsAPI = {
     renameBoard(boardId: string, title: string) {
         return axios.patch(`${api}/renameBoard/${boardId}`, {title})
     },
+
     getTodoLists() {
         return axios.get(`${api}/getTodolist`)
     },
@@ -29,5 +30,11 @@ export const todoListsAPI = {
     },
     renameTodoList(todoListId: string, title: string) {
         return axios.patch(`${api}/renameTodoList/${todoListId}`, {title})
+    },
+    getTasks() {
+        return axios.get(`${api}/getTasks`)
+    },
+    addNewTask(boardId: string, todoListId: string, title: string) {
+        return axios.post(`${api}/addNewTask`, {boardId, todoListId, title})
     }
 }

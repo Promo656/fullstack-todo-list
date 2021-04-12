@@ -4,12 +4,10 @@ import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import {Button, IconButton} from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
 import TaskContainer from "../../task/taskContainer";
-import {v1} from "uuid";
-import {TaskType} from "../../../types/taskType";
 import EditableText from "../../editableText/editableText";
 
 type MDTP = {
-    addNewTask: (task: TaskType) => void
+    addNewTaskTC: (boardId: string, todoListId: string, title: string) => void
     renameTodoListTC: (boardId: string, todoListId: string, newTodoListTitle: string) => void
     deleteTodoListTC: (boardId: string, todoListId: string) => void
 }
@@ -60,7 +58,7 @@ export default function TodoList(props: TodoListPropsType) {
     const classes = useStyles();
 
     const addNewTaskHandler = () => {
-        props.addNewTask({id: v1(), text: "", todoListId: props.todoListId})
+        props.addNewTaskTC(props.boardId, props.todoListId, "New Task")
     }
 
     const deleteTodoListHandler = () => {

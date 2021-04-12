@@ -1,9 +1,7 @@
 import React from 'react';
 import {TodoListType} from "../../types/todoListType";
 import {Button, Container, Grid} from "@material-ui/core";
-import {TaskType} from "../../types/taskType";
 import TodoList from "./todoList/todoList";
-import {addNewTodoListTC} from "../../redux/todoListReducer";
 
 type MSTP = {
     todoLists: TodoListType[]
@@ -11,7 +9,7 @@ type MSTP = {
 }
 
 type MDTP = {
-    addNewTask: (task: TaskType) => void
+    addNewTaskTC: (boardId:string,todoListId: string, title: string) => void
     addNewTodoListTC: (boardId: string, title: string) => void
     renameTodoListTC: (boardId: string, todoListId: string, newTodoListTitle: string) => void
     deleteTodoListTC: (boardId: string, todoListId: string) => void
@@ -37,7 +35,7 @@ function TodoLists(props: TodoListsPropsType) {
                                 todoListId={todoList._id}
                                 title={todoList.title}
                                 boardId={todoList.boardId}
-                                addNewTask={props.addNewTask}
+                                addNewTaskTC={props.addNewTaskTC}
                                 renameTodoListTC={props.renameTodoListTC}
                                 deleteTodoListTC={props.deleteTodoListTC}
                             />

@@ -5,8 +5,7 @@ import {RouteComponentProps, withRouter} from "react-router-dom"
 import {compose} from "redux"
 import {TodoListType} from "../types/todoListType";
 import TodoLists from "../components/todoLists/todoLists";
-import {addNewTask} from "../redux/taskReducer";
-import {TaskType} from "../types/taskType";
+import {addNewTaskTC, fetchTaskTC} from "../redux/taskReducer";
 import {addNewTodoListTC, deleteTodoListTC, fetchTodoListsTC, renameTodoListTC} from "../redux/todoListReducer";
 
 type MSTP = {
@@ -14,11 +13,12 @@ type MSTP = {
 }
 
 type MDTP = {
-    addNewTask: (task: TaskType) => void
+    addNewTaskTC: (boardId: string, todoListId: string, title: string) => void
     addNewTodoListTC: (boardId: string, title: string) => void
     renameTodoListTC: (boardId: string, todoListId: string, newTodoListTitle: string) => void
     deleteTodoListTC: (boardId: string, todoListId: string) => void
     fetchTodoListsTC: () => void
+    fetchTaskTC: () => void
 }
 
 type RouteComponentPropsType = {
@@ -30,15 +30,17 @@ type PathParamsType = RouteComponentProps<RouteComponentPropsType>
 type TodoListsContainerPropsType = MSTP & MDTP & PathParamsType
 
 class TodoListsContainer extends React.Component<TodoListsContainerPropsType> {
-    componentDidMount() {
-        this.props.fetchTodoListsTC()
+    async componentDidMount() {
+        //TODO:setBoardsTC ???
+        await this.props.fetchTodoListsTC()
+        await this.props.fetchTaskTC()
     }
 
     render() {
         return (
             <TodoLists
                 todoLists={this.props.todoLists[this.props.match.params.boardId]}
-                addNewTask={this.props.addNewTask}
+                addNewTaskTC={this.props.addNewTaskTC}
                 addNewTodoListTC={this.props.addNewTodoListTC}
                 boardId={this.props.match.params.boardId}
                 renameTodoListTC={this.props.renameTodoListTC}
@@ -55,7 +57,8 @@ const mapStateToProps = (state: StateType) => ({
 export default compose<React.ComponentType>(
     connect(mapStateToProps, {
         fetchTodoListsTC,
-        addNewTask,
+        fetchTaskTC,
+        addNewTaskTC,
         addNewTodoListTC,
         renameTodoListTC,
         deleteTodoListTC
