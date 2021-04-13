@@ -3,6 +3,7 @@ import {ADD_NEW_TASK, ADD_NEW_TODOLIST, CHANGE_TASK_TITLE, SET_TASKS} from "../c
 import {AddNewTodoListAT} from "../types/todoListType";
 import {Dispatch} from "redux";
 import {todoListsAPI} from "../api/todoListApi";
+import {toast} from "react-toastify";
 
 export type TaskThunkDispatch = Dispatch<TaskReducerAT>
 
@@ -32,7 +33,6 @@ let initialState: InitialStateTaskType = {
 export const tasks = (state: InitialStateTaskType = initialState, action: TaskReducerAT) => {
     switch (action.type) {
         case ADD_NEW_TASK:
-      debugger
             return {
                 ...state,
                 [action.payload.todoListId]: [
@@ -89,7 +89,7 @@ type ChangeTaskTitleAT = {
     type: typeof CHANGE_TASK_TITLE,
     payload: { todoListId: string, taskId: string, newTaskTitle: string }
 }
-export const changeTaskTitle = (todoListId: string, taskId: string, newTaskTitle: string): ChangeTaskTitleAT => ({
+export const renameTask = (todoListId: string, taskId: string, newTaskTitle: string): ChangeTaskTitleAT => ({
     type: CHANGE_TASK_TITLE,
     payload: {todoListId, taskId, newTaskTitle}
 })
@@ -112,4 +112,9 @@ export const fetchTaskTC = () => async (dispatch: TaskThunkDispatch) => {
 export const addNewTaskTC = (boardId: string, todoListId: string, title: string) => async (dispatch: TaskThunkDispatch) => {
     const response = await todoListsAPI.addNewTask(boardId, todoListId, title)
     dispatch(addNewTask(response.data))
+}
+
+export const renameTaskTC = (todoListId: string, taskId: string, newTaskTitle: string) => async (dispatch: TaskThunkDispatch) => {
+    await todoListsAPI.renameTask(taskId, newTaskTitle)
+    dispatch(renameTask(todoListId, taskId, newTaskTitle))
 }

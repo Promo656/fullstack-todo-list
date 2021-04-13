@@ -76,6 +76,7 @@ export const addNewBoardTC = (title: string) => async (dispatch: BoardThunkDispa
 }
 
 export const deleteBoardTC = (boardId: string) => async (dispatch: BoardThunkDispatch) => {
+    await todoListsAPI.deleteAllTaskFromBoard(boardId)
     await todoListsAPI.deleteAllTodoListFromBoard(boardId)
     await todoListsAPI.deleteBoard(boardId)
     dispatch(deleteBoard(boardId))

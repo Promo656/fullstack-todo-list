@@ -126,6 +126,7 @@ export const addNewTodoListTC = (boardId: string, title: string) => async (dispa
 }
 
 export const deleteTodoListTC = (boardId: string, todoListId: string) => async (dispatch: TodoListThunkDispatch) => {
+    await todoListsAPI.deleteAllTaskFromTodoList(todoListId)
     await todoListsAPI.deleteOneTodoList(todoListId)
     dispatch(deleteTodoList(boardId, todoListId))
 }

@@ -1,5 +1,6 @@
 import React, {ChangeEvent, useState} from 'react';
-import {TextField, Typography} from "@material-ui/core";
+import {Button, IconButton, TextField, Typography} from "@material-ui/core";
+import DeleteIcon from '@material-ui/icons/Delete';
 
 type MSTP = {
     name: string
@@ -18,6 +19,7 @@ type EditableTextPropsType = MSTP & MDTP
 function EditableText(props: EditableTextPropsType) {
     const [mod, setMod] = useState(false)
     const [title, setTitle] = useState(props.title)
+    const [isShowDelete, setIsShowDelete] = useState(false)
 
     const onChangeTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.target.value)
@@ -36,6 +38,14 @@ function EditableText(props: EditableTextPropsType) {
         }
     }
 
+    const onMouseOverHandler = () => {
+        setIsShowDelete(true)
+    }
+
+    const onMouseOutHandler = () => {
+        setIsShowDelete(false)
+    }
+
     return (
         <>
             {
@@ -48,11 +58,22 @@ function EditableText(props: EditableTextPropsType) {
                         autoFocus
                         size="small"
                     />
-                    : <Typography variant="inherit"
-                                  className={props.className}
-                                  onClick={onChangeMod}
-                    >{title}
-                    </Typography>
+                    : <div
+                        className={props.className}
+                        onClick={onChangeMod}
+                        onMouseOver={onMouseOverHandler}
+                        onMouseOut={onMouseOutHandler}
+                    >
+                        <Typography variant="inherit">{title}</Typography>
+                        {
+                            props.name === "Task"
+                            && isShowDelete
+                            && <Button size={"small"}>
+                                <DeleteIcon/>
+                            </Button>
+                        }
+
+                    </div>
             }
         </>
     );

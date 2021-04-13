@@ -7,6 +7,7 @@ import {TodoListType} from "../types/todoListType";
 import TodoLists from "../components/todoLists/todoLists";
 import {addNewTaskTC, fetchTaskTC} from "../redux/taskReducer";
 import {addNewTodoListTC, deleteTodoListTC, fetchTodoListsTC, renameTodoListTC} from "../redux/todoListReducer";
+import {fetchBoardsTC} from "../redux/boardReducer";
 
 type MSTP = {
     [key: string]: TodoListType[]
@@ -17,6 +18,7 @@ type MDTP = {
     addNewTodoListTC: (boardId: string, title: string) => void
     renameTodoListTC: (boardId: string, todoListId: string, newTodoListTitle: string) => void
     deleteTodoListTC: (boardId: string, todoListId: string) => void
+    fetchBoardsTC: () => void
     fetchTodoListsTC: () => void
     fetchTaskTC: () => void
 }
@@ -32,6 +34,7 @@ type TodoListsContainerPropsType = MSTP & MDTP & PathParamsType
 class TodoListsContainer extends React.Component<TodoListsContainerPropsType> {
     async componentDidMount() {
         //TODO:setBoardsTC ???
+        await this.props.fetchBoardsTC()
         await this.props.fetchTodoListsTC()
         await this.props.fetchTaskTC()
     }
@@ -56,6 +59,7 @@ const mapStateToProps = (state: StateType) => ({
 
 export default compose<React.ComponentType>(
     connect(mapStateToProps, {
+        fetchBoardsTC,
         fetchTodoListsTC,
         fetchTaskTC,
         addNewTaskTC,

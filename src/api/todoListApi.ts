@@ -31,10 +31,20 @@ export const todoListsAPI = {
     renameTodoList(todoListId: string, title: string) {
         return axios.patch(`${api}/renameTodoList/${todoListId}`, {title})
     },
+
     getTasks() {
         return axios.get(`${api}/getTasks`)
     },
     addNewTask(boardId: string, todoListId: string, title: string) {
         return axios.post(`${api}/addNewTask`, {boardId, todoListId, title})
+    },
+    deleteAllTaskFromBoard(boardId: string) {
+        return axios.delete(`${api}/deleteAllTaskFromBoard/${boardId}`)
+    },
+    deleteAllTaskFromTodoList(todoListId: string) {
+        return axios.delete(`${api}/deleteAllTaskFromTodoList/${todoListId}`)
+    },
+    renameTask(taskId: string, title: string) {
+        return axios.patch(`${api}/renameTask/${taskId}`, {title})
     }
 }
