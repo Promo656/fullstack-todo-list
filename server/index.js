@@ -1,6 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
+const bcrypt = require("bcrypt");
 const app = express()
 const cors = require('cors')
 
@@ -11,6 +12,7 @@ const api = '/api/v1'
 const Board = require('./model/board')
 const TodoList = require('./model/todoList')
 const Task = require('./model/task')
+const User = require('./model/user')
 
 
 app.use(cors())
@@ -148,6 +150,48 @@ app.patch(`${api}/renameTask/:taskId`, async (req, res) => {
             {$set: {title: req.body.title}}
         )
         res.status(200).json(updateTask)
+    } catch (e) {
+        res.json(e)
+    }
+})
+
+
+app.post(`${api}/signup`, async (req, res) => {
+    try {
+        const body = req.body;
+        if (!(body.email && body.password)) {
+            return res.status(400).send({error: "Data not formatted properly"});
+        }
+        // creating a new mongoose doc from user data
+        const user = new User({
+            email: req.body.email,
+            password: req.body.password
+        });
+        // generate salt to hash password
+        const salt = await bcrypt.genSalt(7);
+        // now we set user password to hashed password
+        user.password = await bcrypt.hash(user.password, salt);
+        const savedUser = await user.save()
+        res.status(200).json(savedUser)
+    } catch (e) {
+        res.json(e)
+    }
+})
+app.post(`${api}/login`,async (req,res)=>{
+    try {
+        const body = req.body;
+        const user = await User.findOne({ email: body.email });
+        if (user) {
+            // check user password with hashed password stored in the database
+            const validPassword = await bcrypt.compare(body.password, user.password);
+            if (validPassword) {
+                res.status(200).json({ message: "Valid password" });
+            } else {
+                res.status(400).json({ error: "Invalid Password" });
+            }
+        } else {
+            res.status(401).json({ error: "User does not exist" });
+        }
     } catch (e) {
         res.json(e)
     }
