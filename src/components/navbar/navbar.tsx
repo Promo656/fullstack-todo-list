@@ -15,6 +15,7 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import {useHistory} from 'react-router-dom';
+import {Button} from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -115,6 +116,9 @@ export default function Navbar() {
     const gotoBoards = () => {
         history.push('/111/boards')
     }
+    const gotoLogin = () => {
+        history.push('/auth/login')
+    }
 
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
@@ -203,6 +207,9 @@ export default function Navbar() {
                     </div>*/}
                     <div className={classes.grow}/>
                     <div className={classes.sectionDesktop}>
+                        <Button onClick={gotoLogin}>
+                            Auth
+                        </Button>
                         <IconButton aria-label="show 4 new mails" color="inherit">
                             <Badge badgeContent={4} color="secondary">
                                 <MailIcon/>
